@@ -1,8 +1,8 @@
 import hashlib
 from itertools import product
 
-inp = b"So it goes."
-rarity = 6  # Epic rarity
+amulet = b"So it goes."
+rarity = 7  # Epic rarity
 test_sha = "314a1c2d9193afbc99b86a1e2d92811ea00cb857b37255ee9221294c6209b6cd"
 whitespace_chars = {
     "\u0020",
@@ -27,27 +27,27 @@ whitespace_chars = {
 }
 
 
-def get_hash(inp):
+def get_hash(amulet):
     m = hashlib.sha256()
-    m.update(inp)
+    m.update(amulet)
     return m.hexdigest()
 
 
-def check_amulet(inp):
-    c = inp.decode("utf-8")
-    h = get_hash(inp)
-    return ("8" * rarity in str(h), h, inp, c)
+def check_amulet(amulet):
+    c = amulet.decode("utf-8")
+    h = get_hash(amulet)
+    return ("8" * rarity in str(h), h, amulet, c)
 
 
-def gen_amulets(inp, rarity=rarity):
+def gen_amulets(amulet, rarity=rarity):
     min_len = 0
     repeat = 1
-    while min_len < 64:
+    while min_len <= 64:
         p = product(whitespace_chars, repeat=repeat)
         repeat += 1
         loop_min_len = 100
         for a in p:
-            d = check_amulet(inp + "".join(a).encode("utf-8"))
+            d = check_amulet(amulet + "".join(a).encode("utf-8"))
             length = len(d[-1].encode("utf-8"))
             if length < loop_min_len:
                 loop_min_len = length
@@ -57,6 +57,6 @@ def gen_amulets(inp, rarity=rarity):
 
 
 if __name__ == "__main__":
-    assert get_hash(inp) == test_sha
-    assert not check_amulet(inp)[0]
-    gen_amulets(inp, rarity=rarity)
+    assert get_hash(amulet) == test_sha
+    assert not check_amulet(amulet)[0]
+    gen_amulets(amulet, rarity=rarity)

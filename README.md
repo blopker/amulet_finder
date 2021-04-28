@@ -12,3 +12,4 @@ To run:
 ```
 python3 main.py
 ```
+![alt text](https://raw.githubusercontent.com/blopker/amulet_finder/main/legendary.png)
